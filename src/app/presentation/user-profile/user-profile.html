@@ -1,0 +1,127 @@
+<div class="app-background">
+  <div class="glow-orb top-center"></div>
+
+  <div class="container">
+    
+    <nav class="navbar glass-panel">
+      <div class="logo-container">
+        <span class="logo-text">⚡ Mon Espace</span>
+      </div>
+      <div class="actions">
+        <a routerLink="/home" class="btn-ghost">
+          ⬅ Retour Market
+        </a>
+      </div>
+    </nav>
+
+    <header class="wallet-dashboard glass-panel">
+      <div class="wallet-content">
+        <div class="avatar-circle">
+          <img [src]="'https://api.dicebear.com/7.x/identicon/svg?seed=' + currentAccount" alt="Avatar">
+        </div>
+        <div class="info-block">
+          <label>Portefeuille Connecté</label>
+          <div class="address-pill" *ngIf="currentAccount">
+            {{ currentAccount }}
+            <span class="indicator"></span>
+          </div>
+        </div>
+        <div class="balance-block">
+          <label>Solde Disponible</label>
+          <div class="balance-value">
+            {{ userBalance | number:'1.0-4' }} <span class="currency">ETH</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="vendor-panel glass-panel">
+        <div class="panel-header">
+          <h3>🚀 Minter un nouvel Asset</h3>
+          <p>Créez un NFT sécurisé sur la blockchain et mettez-le en vente.</p>
+        </div>
+
+        <div class="mint-form">
+          <div class="input-group">
+            <label>Nom de l'Asset</label>
+            <input type="text" [(ngModel)]="newItemName" placeholder="Ex: Clé windows" [disabled]="loading">
+          </div>
+
+          <div class="input-group">
+            <label>Catégorie (Metadata)</label>
+            <div class="select-wrapper">
+              <select [(ngModel)]="newItemType" [disabled]="loading">
+                <option value="Immobilier">🔑 Clé</option>
+                <option value="Véhicule">💻 Électronique</option>
+                <option value="Art">🎨 Art Numérique</option>
+                <option value="Art">🤝 Service</option>
+                <option value="Autre">📦 Autre</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Prix de vente (ETH)</label>
+            <input type="number" [(ngModel)]="newItemPrice" placeholder="0.5" [disabled]="loading">
+          </div>
+
+          <button (click)="onCreateItem()" [disabled]="loading" class="btn-mint">
+            {{ loading ? 'Minage en cours...' : 'CRÉER & VENDRE' }}
+          </button>
+        </div>
+        
+        @if (message) {
+          <div class="web3-alert" [class.error]="error">
+            <span class="icon">{{ error ? '⚠️' : '✅' }}</span>
+            <span>{{ message }}</span>
+          </div>
+        }
+      </section>
+
+      <div class="divider">
+        <span>VOS ACTIFS ON-CHAIN</span>
+      </div>
+
+      <section class="my-items">
+        <div class="product-grid">
+          @for (item of myItems; track item.id) {
+            <div class="nft-card glass-panel">
+              <div class="card-image">
+                <img [src]="'https://placehold.co/600x400/1e293b/8B5CF6?text=' + item.type" alt="Asset">
+                <div class="id-badge">#{{ item.id }}</div>
+              </div>
+
+              <div class="card-content">
+                <div class="header-row">
+                  <h4>{{ item.name }}</h4>
+                  <span class="status-badge" [ngClass]="item.state">{{ item.state }}</span>
+                </div>
+                
+                <div class="price-row">
+                  <span class="label">Prix listé</span>
+                  <span class="val">{{ item.value }}</span>
+                </div>
+
+                <div class="action-footer">
+                   @if (item.state === 'RELEASED') {
+                     <div class="stat-box success">💰 VENDU</div>
+                   } @else {
+                     <div class="stat-box active">🟢 EN VENTE</div>
+                   }
+                </div>
+              </div>
+            </div>
+          }
+          @if (myItems.length === 0) {
+            <div class="empty-dashboard">
+              <div class="icon">🕸️</div>
+              <p>Votre inventaire est vide.</p>
+            </div>
+          }
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>

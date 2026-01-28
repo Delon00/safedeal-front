@@ -1,0 +1,164 @@
+<div class="app-background">
+  <div class="glow-orb top-left"></div>
+  <div class="glow-orb bottom-right"></div>
+
+  <div class="container">
+    
+    <nav class="navbar glass-panel">
+      <div class="logo-container">
+        <div class="logo-icon">⚡</div>
+        <span class="logo-text">SafeDeal <span class="badge">Web3</span></span>
+      </div>
+      <div class="actions">
+        <a routerLink="/profile" class="btn-connect">
+          <span class="icon">👾</span> Mon Compte
+        </a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-content">
+        <h1>Discover <span class="gradient-text">SafeDeal</span> Assets</h1>
+        <p>La marketplace décentralisée sécurisée par Smart Contracts. Achetez, Vendez, Echangez en toute confiance.</p>
+        
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="val">{{ allItems.length }}</span>
+            <span class="lbl">Items</span>
+          </div>
+          <div class="stat">
+            <span class="val">ETH</span>
+            <span class="lbl">Network</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="section-header">
+        <h3>🔥 Trending Assets</h3>
+        <div class="filter-pills">
+          
+          <span class="pill" 
+                [class.active]="activeFilter === 'Tout'" 
+                (click)="setFilter('Tout')">
+            Tout
+          </span>
+
+          <span class="pill" 
+                [class.active]="activeFilter === 'Clé'" 
+                (click)="setFilter('Clé')">
+            Clé
+          </span>
+
+          <span class="pill" 
+                [class.active]="activeFilter === 'Électronique'" 
+                (click)="setFilter('Électronique')">
+            Électronique
+          </span>
+          
+          <span class="pill" 
+                [class.active]="activeFilter === 'Service'" 
+                (click)="setFilter('Service')">
+            Service
+          </span>
+
+          <span class="pill" 
+                [class.active]="activeFilter === 'Art'" 
+                (click)="setFilter('Art')">
+            Art
+          </span>
+
+        </div>
+      </div>
+
+      @if (message) {
+        <div class="web3-alert" [class.error]="error">
+          <span class="icon">{{ error ? '⚠️' : '✅' }}</span>
+          <span class="msg">{{ message }}</span>
+        </div>
+      }
+
+      @if (loading) { 
+        <div class="loader-container">
+          <div class="spinner"></div>
+          <span>Syncing with Blockchain...</span>
+        </div>
+      }
+
+      <div class="product-grid">
+        
+        @for (item of displayedItems; track item.id) {
+          <div class="nft-card glass-panel">
+            
+            <div class="card-image">
+              <img [src]="'https://placehold.co/600x400/1e293b/00e599?text=' + item.name" alt="Asset">
+              <div class="card-badges">
+                <span class="type-badge">{{ item.type }}</span>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <div class="header-row">
+                <h2>{{ item.name }}</h2>
+                <span class="status-dot" 
+                      [class.available]="item.state === 'AVAILABLE'"
+                      [class.locked]="item.state === 'LOCKED'"
+                      [class.released]="item.state === 'RELEASED'">
+                </span>
+              </div>
+
+              <div class="price-box">
+                <div class="label">Prix actuel</div>
+                <div class="value">{{ item.value }}</div>
+              </div>
+
+              <div class="meta-row">
+                <div class="user-pill">
+                  <span class="role">Vendeur</span>
+                  <span class="addr">{{ item.seller | slice:0:4 }}...{{ item.seller | slice:-4 }}</span>
+                </div>
+                @if (item.buyer && item.buyer !== '0x0000000000000000000000000000000000000000') {
+                  <div class="user-pill buyer">
+                    <span class="role">Acheteur</span>
+                    <span class="addr">{{ item.buyer | slice:0:4 }}...</span>
+                  </div>
+                }
+              </div>
+
+              @if (item.previousOwners && item.previousOwners.length > 0) {
+                <div class="history-accordion">
+                  <span class="history-label">📜 Historique ({{ item.previousOwners.length }})</span>
+                </div>
+              }
+
+              <div class="action-area">
+                @if (item.state === 'AVAILABLE') {
+                  <button (click)="onBuy(item)" class="btn-action buy" [disabled]="loading">
+                    Acheter maintenant
+                  </button>
+                }
+                @if (item.state === 'LOCKED') {
+                  <button (click)="onConfirm(item)" class="btn-action confirm" [disabled]="loading">
+                    Valider Réception
+                  </button>
+                }
+                @if (item.state === 'RELEASED') {
+                  <div class="sold-badge">VENDU</div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (!loading && displayedItems.length === 0) {
+        <div class="empty-state">
+           <div class="empty-icon">🌑</div>
+           <p>Aucun asset détecté dans cette catégorie.</p>
+        </div>
+      }
+
+    </main>
+  </div>
+</div>

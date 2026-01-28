@@ -1,0 +1,298 @@
+// --- PALETTE WEB3 ---
+$bg-deep: #0B0E14;
+$bg-panel: rgba(21, 26, 35, 0.6);
+$neon-green: #00E599;
+$neon-purple: #8B5CF6;
+$neon-blue: #3B82F6;
+$text-main: #FFFFFF;
+$text-muted: #94A3B8;
+$border-color: rgba(255, 255, 255, 0.08);
+
+:host {
+  display: block;
+  background-color: $bg-deep;
+  min-height: 100vh;
+  color: $text-main;
+  font-family: 'Inter', sans-serif;
+}
+
+.app-background {
+  position: relative;
+  padding-bottom: 4rem;
+  overflow-x: hidden;
+}
+
+.glow-orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: $neon-blue;
+  filter: blur(150px);
+  opacity: 0.1;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+// --- GLASSMORPHISM ---
+.glass-panel {
+  background: $bg-panel;
+  backdrop-filter: blur(12px);
+  border: 1px solid $border-color;
+  border-radius: 16px;
+}
+
+// --- NAVBAR ---
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+
+  .logo-text { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
+  
+  .btn-ghost {
+    color: $text-muted;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.2s;
+    &:hover { color: $text-main; }
+  }
+}
+
+// --- WALLET DASHBOARD ---
+.wallet-dashboard {
+  padding: 2rem;
+  background: linear-gradient(145deg, rgba(21, 26, 35, 0.8), rgba(59, 130, 246, 0.1));
+  border: 1px solid rgba($neon-blue, 0.2);
+  margin-bottom: 3rem;
+
+  .wallet-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+
+    .avatar-circle img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid $neon-blue;
+      box-shadow: 0 0 15px rgba($neon-blue, 0.3);
+    }
+
+    label { font-size: 0.75rem; text-transform: uppercase; color: $text-muted; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+
+    .address-pill {
+      font-family: monospace;
+      background: rgba(0,0,0,0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid $border-color;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .indicator {
+        width: 8px;
+        height: 8px;
+        background: $neon-green;
+        border-radius: 50%;
+        box-shadow: 0 0 5px $neon-green;
+      }
+    }
+
+    .balance-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: $text-main;
+      .currency { font-size: 1rem; color: $neon-purple; }
+    }
+  }
+}
+
+// --- VENDOR FORM ---
+.vendor-panel {
+  padding: 2rem;
+  
+  .panel-header {
+    margin-bottom: 2rem;
+    h3 { font-size: 1.5rem; margin: 0 0 5px 0; }
+    p { color: $text-muted; margin: 0; font-size: 0.9rem; }
+  }
+
+  .mint-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1.5rem;
+    align-items: end;
+
+    @media (max-width: 768px) { grid-template-columns: 1fr; }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      
+      label { font-size: 0.85rem; font-weight: 600; color: $text-muted; }
+      
+      input, select {
+        background: rgba(0,0,0,0.3);
+        border: 1px solid $border-color;
+        padding: 12px 16px;
+        border-radius: 10px;
+        color: $text-main;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus { border-color: $neon-purple; }
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+      }
+    }
+
+    .btn-mint {
+      height: 46px; /* Alignement avec les inputs */
+      background: linear-gradient(135deg, $neon-purple, darken($neon-purple, 10%));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba($neon-purple, 0.4);
+      }
+      &:disabled { opacity: 0.6; }
+    }
+  }
+}
+
+// --- ALERTS ---
+.web3-alert {
+  margin-top: 1.5rem;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba($neon-green, 0.1);
+  border: 1px solid rgba($neon-green, 0.3);
+  color: lighten($neon-green, 10%);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  &.error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+  }
+}
+
+// --- GRID ITEMS ---
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0 2rem;
+  
+  span {
+    background: $bg-deep;
+    padding: 0 1rem;
+    color: $text-muted;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  &::before, &::after {
+    content: '';
+    height: 1px;
+    background: $border-color;
+    flex: 1;
+  }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+
+  .nft-card {
+    overflow: hidden;
+    transition: transform 0.2s;
+    
+    &:hover { transform: translateY(-5px); border-color: $neon-purple; }
+
+    .card-image {
+      position: relative;
+      height: 150px;
+      img { width: 100%; height: 100%; object-fit: cover; }
+      .id-badge {
+        position: absolute;
+        top: 8px; left: 8px;
+        background: rgba(0,0,0,0.6);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-family: monospace;
+      }
+    }
+
+    .card-content {
+      padding: 1rem;
+      
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        h4 { margin: 0; font-size: 1rem; }
+        .status-badge { font-size: 0.7rem; font-weight: 700; opacity: 0.8; }
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 1rem;
+        .label { font-size: 0.75rem; color: $text-muted; }
+        .val { font-weight: 700; color: $neon-green; }
+      }
+
+      .stat-box {
+        text-align: center;
+        padding: 8px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        
+        &.success { background: rgba($neon-purple, 0.1); color: $neon-purple; }
+        &.active { background: rgba($neon-green, 0.1); color: $neon-green; }
+      }
+    }
+  }
+}
+
+.empty-dashboard {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem;
+  color: $text-muted;
+  border: 2px dashed $border-color;
+  border-radius: 16px;
+  .icon { font-size: 2rem; margin-bottom: 1rem; }
+}
