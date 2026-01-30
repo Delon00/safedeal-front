@@ -13,7 +13,6 @@ export class Web3Service {
   private provider: ethers.BrowserProvider | undefined;
   private signer: ethers.JsonRpcSigner | undefined;
   
-  // Assure-toi que cette adresse est à jour après chaque redéploiement !
   private readonly contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
   private readonly contractABI = [

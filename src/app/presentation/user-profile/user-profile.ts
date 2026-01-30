@@ -16,7 +16,7 @@ export class UserProfile implements OnInit {
   userBalance = '0';
   
   // ✅ Variable pour la catégorie (Valeur par défaut importante)
-  newItemType: string = 'Immobilier';
+  newItemType: string = 'Clé';
   
   myItems: any[] = []; 
 
@@ -90,7 +90,7 @@ export class UserProfile implements OnInit {
       // Reset du formulaire
       this.newItemName = '';
       this.newItemPrice = '';
-      this.newItemType = 'Immobilier'; // On remet la valeur par défaut
+      this.newItemType = 'Clé'; // On remet la valeur par défaut
 
       await this.refreshWalletInfo();
       await this.loadMyItems();
